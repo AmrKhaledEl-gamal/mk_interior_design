@@ -10,7 +10,7 @@
                 </button>
                 <div class="search-bar">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Search users...">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Search users...">
                 </div>
             </div>
 

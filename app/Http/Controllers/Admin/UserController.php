@@ -16,8 +16,16 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(10);
-        return view('admin.users.usersList', compact('users'));
+        //search
+        $search = request('search');
+        $users = User::where('first_name', 'like', "%{$search}%")
+            ->orWhere('last_name', 'like', "%{$search}%")
+            ->orWhere('email', 'like', "%{$search}%")
+            ->orWhere('phone1', 'like', "%{$search}%")
+            ->orWhere('phone2', 'like', "%{$search}%")
+            ->paginate(10);
+
+        return view('admin.users.usersList', compact('users', 'search'));
     }
 
     public function pending()
