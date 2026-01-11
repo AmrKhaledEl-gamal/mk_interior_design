@@ -43,6 +43,7 @@ class UserController extends Controller
         return [
             'id' => $user->id,
             'photo' => $user->getFirstMediaUrl('avatars') ?: null, // Assumes 'avatar' collection
+            'cover' => $user->getFirstMediaUrl('covers') ?: null, // Assumes 'avatar' collection
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
             'email' => $user->email,

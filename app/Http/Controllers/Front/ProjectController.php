@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
-use Psy\Util\Str;
+use Illuminate\Support\Str;
 
 class ProjectController extends Controller
 {
@@ -23,8 +23,8 @@ class ProjectController extends Controller
     public function store(ProjectRequest $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'slug' => 'required|string|max:255',
+            'name.en' => 'required|string|max:255',
+            'name.ar' => 'nullable|string|max:255',
         ]);
         $project = Project::create([
             'name' => [
@@ -81,34 +81,45 @@ class ProjectController extends Controller
     private function handleMedia(Project $project, $request): void
     {
         if ($request->hasFile('photos')) {
-            $manager = new \Intervention\Image\ImageManager(new \Intervention\Image\Drivers\Gd\Driver());
+            $manager = new \Intervention\Image\ImageManager(
+                new \Intervention\Image\Drivers\Gd\Driver()
+            );
 
             foreach ($request->file('photos') as $file) {
-                $webpName = \Illuminate\Support\Str::uuid() . '.webp';
+                $webpName = Str::uuid() . '.webp';
                 $tempPath = storage_path('app/temp/' . $webpName);
 
-                // Ensure temp directory exists
                 if (!file_exists(dirname($tempPath))) {
                     mkdir(dirname($tempPath), 0755, true);
                 }
 
-                // Process image: orientate, convert to webp, save
-                $manager->read($file)
+                $image = $manager->read($file);
+
+                // ✅ نفس الضغط + التحويل + تحسين
+                $image
+                    ->orient() // تصحيح اتجاه الصورة
+                    // ->resize(
+                    //     1200,
+                    //     1600,
+                    //     function ($constraint) {
+                    //         $constraint->aspectRatio();
+                    //         $constraint->upsize();
+                    //     }
+                    // )
                     ->toWebp(85)
                     ->save($tempPath);
 
-                // Upload to Media Library
                 $project
                     ->addMedia($tempPath)
                     ->usingFileName($webpName)
                     ->toMediaCollection('photos');
 
-                // Cleanup
                 if (file_exists($tempPath)) {
                     unlink($tempPath);
                 }
             }
         }
+
 
         if ($request->hasFile('videos')) {
             foreach ($request->file('videos') as $video) {

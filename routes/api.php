@@ -12,7 +12,11 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::middleware(['api.secret', 'api.locale'])->group(function () {
-    Route::apiResource('projects', ProjectController::class)->only(['index', 'show']);
+    Route::apiResource('projects', ProjectController::class)
+        ->only(['index', 'show'])
+        ->parameters([
+            'projects' => 'project:slug',
+        ]);
     Route::apiResource('users', UserController::class)->only(['index', 'show']);
 
     Route::prefix('projects/{slug}')->group(function () {

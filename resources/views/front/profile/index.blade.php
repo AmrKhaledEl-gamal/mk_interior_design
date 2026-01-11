@@ -18,6 +18,29 @@
             @csrf
 
             <div style="display: flex; gap: 3rem; align-items: flex-start; flex-wrap: wrap;">
+                <!-- Cover Photo Section -->
+                <div style="width: 100%; margin-bottom: 2rem; position: relative;">
+                    <div
+                        style="position: relative; width: 100%; height: 200px; border-radius: 8px; overflow: hidden; border: 2px solid var(--accent);">
+                        @if ($user->getFirstMediaUrl('covers'))
+                            <img src="{{ $user->getFirstMediaUrl('covers') }}" alt="Cover Photo"
+                                style="width: 100%; height: 100%; object-fit: cover;">
+                        @else
+                            <div
+                                style="width: 100%; height: 100%; background: #2c2c2c; display: flex; align-items: center; justify-content: center; color: var(--text-secondary);">
+                                <span>No Cover Photo</span>
+                            </div>
+                        @endif
+                        <label for="cover"
+                            style="position: absolute; bottom: 10px; right: 10px; background: var(--accent); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid var(--bg-card); z-index: 10;">
+                            <i class="fa-solid fa-camera"></i>
+                        </label>
+                        <input type="file" name="cover" id="cover" style="display: none;">
+                    </div>
+                    <p style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.875rem; text-align: right;">
+                        Cover Photo (Allowed *.jpeg, *.jpg, *.png, *.gif)</p>
+                </div>
+
                 <!-- Photo Section -->
                 <div style="flex-shrink: 0; text-align: center;">
                     <div style="position: relative; width: 120px; height: 120px; margin: 0 auto;">
