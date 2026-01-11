@@ -15,7 +15,7 @@ Route::middleware(['api.secret', 'api.locale'])->group(function () {
     Route::apiResource('projects', ProjectController::class)->only(['index', 'show']);
     Route::apiResource('users', UserController::class)->only(['index', 'show']);
 
-    Route::prefix('projects/{project}')->group(function () {
+    Route::prefix('projects/{slug}')->group(function () {
         // Route::post('views/increment', [ProjectAnalyticsController::class, 'increaseViews']);
         Route::post('like', [ProjectAnalyticsController::class, 'like']);
         Route::post('unlike', [ProjectAnalyticsController::class, 'unlike']);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
+use Psy\Util\Str;
 
 class ProjectController extends Controller
 {
@@ -21,11 +22,16 @@ class ProjectController extends Controller
 
     public function store(ProjectRequest $request)
     {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'slug' => 'required|string|max:255',
+        ]);
         $project = Project::create([
             'name' => [
                 'en' => $request->name['en'],
                 'ar' => $request->name['ar'],
             ],
+            'slug' => Str::slug($request->name['en']),
             'user_id' => auth()->id(),
         ]);
 
@@ -53,6 +59,7 @@ class ProjectController extends Controller
                 'en' => $request->name['en'],
                 'ar' => $request->name['ar'],
             ],
+            'slug' => Str::slug($request->name['en']),
         ]);
 
         $this->handleMedia($project, $request);

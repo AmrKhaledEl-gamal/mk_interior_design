@@ -12,19 +12,19 @@ class UserController extends Controller
     {
         $users = User::with(['media'])
             ->where('active', true)
-            // ->where('is_approved', true)
-        ;
+            ->where('is_approved', true)
+            ->get();
 
-        $data = $users->getCollection()->transform(function ($user) {
+        $data = $users->transform(function ($user) {
             return $this->formatUser($user);
         });
 
         return response()->json([
             'status' => true,
             'data' => $data,
-
         ]);
     }
+
 
     public function show(User $user): JsonResponse
     {

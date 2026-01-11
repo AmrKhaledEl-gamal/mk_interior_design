@@ -12,7 +12,7 @@ class Project extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia, HasTranslations;
 
-    protected $fillable = ['name', 'active', 'user_id'];
+    protected $fillable = ['name', 'active', 'user_id', 'slug'];
 
     public $translatable = ['name'];
 
