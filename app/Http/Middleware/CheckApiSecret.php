@@ -17,7 +17,7 @@ class CheckApiSecret
     {
         $secret = env('API_SECRET_KEY');
 
-        if (!$secret || $request->header('X-API-SECRET') !== $secret) {
+        if (!$secret || $request->header('X-API-KEY') !== $secret) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
