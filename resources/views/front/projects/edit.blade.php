@@ -119,6 +119,16 @@
 
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if ($errors->any())
+        <script>
+            Swal.fire({
+                icon: '{{ session('warning') ? 'warning' : 'error' }}',
+                title: '{{ session('warning') ? 'تنبيه' : 'خطأ في رفع الملفات' }}',
+                text: '{{ session('warning') ?? $errors->first() }}',
+                confirmButtonText: 'حاول تاني'
+            });
+        </script>
+    @endif
     <script>
         // Preview New Images
         function previewImages(input) {

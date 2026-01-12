@@ -66,11 +66,48 @@
     @if ($errors->any())
         <script>
             Swal.fire({
-                icon: 'error',
-                title: 'خطأ في رفع الملفات',
-                text: '{{ $errors->first() }}',
+                icon: '{{ session('warning') ? 'warning' : 'error' }}',
+                title: '{{ session('warning') ? 'تنبيه' : 'خطأ في رفع الملفات' }}',
+                text: '{{ session('warning') ?? $errors->first() }}',
                 confirmButtonText: 'حاول تاني'
             });
         </script>
     @endif
+    <script>
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const photos = document.querySelector('input[name="photos[]"]')?.files;
+            const videos = document.querySelector('input[name="videos[]"]')?.files;
+
+            const maxPhotoSize = 5 * 1024 * 1024; // 5MB
+            const maxVideoSize = 10 * 1024 * 1024; // 10MB
+
+            if (photos) {
+                for (let file of photos) {
+                    if (file.size > maxPhotoSize) {
+                        e.preventDefault();
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'حجم صورة كبير',
+                            text: 'أقصى حجم للصورة 5 ميجا',
+                        });
+                        return;
+                    }
+                }
+            }
+
+            if (videos) {
+                for (let file of videos) {
+                    if (file.size > maxVideoSize) {
+                        e.preventDefault();
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'حجم فيديو كبير',
+                            text: 'أقصى حجم للفيديو 10 ميجا',
+                        });
+                        return;
+                    }
+                }
+            }
+        });
+    </script>
 @endsection
