@@ -11,11 +11,11 @@ class UserController extends Controller
 {
     public function index(): JsonResponse
     {
-        $users = User::with(['media'])
+        $users = User::with('media')
             ->where('active', true)
             ->where('is_approved', true)
             ->get()
-            ->map(fn($user) => $this->formatUser($user));
+            ->map(fn(User $user) => $this->formatUser($user));
 
         return response()->json([
             'status' => true,
@@ -37,12 +37,19 @@ class UserController extends Controller
             ->select('id', 'slug', 'title')
             ->paginate(8);
 
+        $items = $projects->getCollection()
+            ->map(fn(Project $project) => $this->formatProject($project))
+            ->values();
+
         return response()->json([
             'status' => true,
             'data' => [
                 'user' => $this->formatUser($user),
-                'projects' => $projects
-            ]
+                'projects' => [
+                    'items'    => $items,
+                    'has_more' => $projects->hasMorePages(),
+                ],
+            ],
         ]);
     }
 
@@ -62,12 +69,11 @@ class UserController extends Controller
         ];
     }
 
-
     private function formatProject(Project $project): array
     {
         return [
-            'id'   => $project->id,
-            'slug' => $project->slug,
+            'id'    => $project->id,
+            'slug'  => $project->slug,
             'title' => $project->title,
         ];
     }
