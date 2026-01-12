@@ -10,33 +10,39 @@ class ProjectController extends Controller
 {
     public function index(): JsonResponse
     {
-        $projects = Project::with(['media'])
-            ->where('active', true)->latest()->paginate(12);
+        $projects = Project::with('media')
+            ->where('active', true)
+            ->latest()
+            ->paginate(12);
 
-        $data = $projects->getCollection()->transform(function ($project) {
-            return $this->formatProject($project);
-        });
+        $items = $projects->getCollection()
+            ->map(fn(Project $project) => $this->formatProject($project))
+            ->values();
 
         return response()->json([
             'status' => true,
-            'data' => $data,
+            'data' => [
+                'items'    => $items,
+                'has_more' => $projects->hasMorePages(),
+            ],
         ]);
     }
 
     public function show(Project $project): JsonResponse
     {
         if (!$project->active) {
-            return response()->json(['status' => false, 'message' => 'Project not found'], 404);
+            return response()->json([
+                'status' => false,
+                'message' => 'Project not found'
+            ], 404);
         }
 
-        // Ensure views are incremented via the separate analytics endpoint if strict separation is desired,
-        // OR we can leave it to the client to call the increment endpoint.
-        // "make a project api dont foret get images , videos from media" -> Focus on data retrieval.
+        // optional
         $project->increment('views');
 
         return response()->json([
             'status' => true,
-            'data' => $this->formatProject($project)
+            'data' => $this->formatProject($project),
         ]);
     }
 
@@ -45,31 +51,28 @@ class ProjectController extends Controller
         $locale = app()->getLocale();
         $name = $project->name;
 
-        // Handle localization manually if name is array
         if (is_array($name)) {
-            $name = $name[$locale] ?? $name['en'] ?? $name;
+            $name = $name[$locale] ?? $name['en'] ?? '';
         }
 
         return [
-            'id' => $project->id,
-            'user_id' => $project->user_id,
-            'slug' => $project->slug,
-            'name' => (string) $name,
-            'views' => $project->views,
-            'likes' => $project->likes,
+            'id'         => $project->id,
+            'user_id'    => $project->user_id,
+            'slug'       => $project->slug,
+            'name'       => (string) $name,
+            'views'      => $project->views,
+            'likes'      => $project->likes,
             'created_at' => $project->created_at,
+
             'media' => [
-                'photos' => $project->getMedia('photos')->map(function ($media) {
-                    return [
-                        'url' => $media->getUrl(),
-                    ];
-                }),
-                'videos' => $project->getMedia('videos')->map(function ($media) {
-                    return [
-                        'url' => $media->getUrl(),
-                    ];
-                }),
-            ]
+                'photos' => $project->getMedia('photos')
+                    ->map(fn($media) => $media->getUrl())
+                    ->values(),
+
+                'videos' => $project->getMedia('videos')
+                    ->map(fn($media) => $media->getUrl())
+                    ->values(),
+            ],
         ];
     }
 }
