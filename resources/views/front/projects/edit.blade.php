@@ -32,13 +32,6 @@
                     </div>
                 </div>
 
-                {{-- slug --}}
-                <div class="form-group">
-                    <label class="form-label">Slug</label>
-                    <input type="text" name="slug" class="form-control" value="{{ old('slug') ?? $project->slug }}"
-                        placeholder="e.g. skyline-tower" required>
-                </div>
-
                 {{-- Upload New Images --}}
                 <div class="form-group">
                     <label class="form-label" for="images">Project Images</label>
@@ -119,6 +112,16 @@
 
 @section('scripts')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if ($errors->any())
+        <script>
+            Swal.fire({
+                icon: '{{ session('warning') ? 'warning' : 'error' }}',
+                title: '{{ session('warning') ? 'تنبيه' : 'خطأ في رفع الملفات' }}',
+                text: '{{ session('warning') ?? $errors->first() }}',
+                confirmButtonText: 'حاول تاني'
+            });
+        </script>
+    @endif
     <script>
         // Preview New Images
         function previewImages(input) {

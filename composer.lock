@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5b0d248c351f82faf338154a1f441706",
+    "content-hash": "3d9ddd9e9f51a901832c5c0a774e2942",
     "packages": [
         {
             "name": "brick/math",
@@ -7561,16 +7561,16 @@
         },
         {
             "name": "yoeunes/regex-parser",
-            "version": "v1.0.10",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yoeunes/regex-parser.git",
-                "reference": "5b80e32ea6d650be8a42577310a3a8bb3f99c7b0"
+                "reference": "e4d61b82c3e38facf247b973cd431a66a13556ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yoeunes/regex-parser/zipball/5b80e32ea6d650be8a42577310a3a8bb3f99c7b0",
-                "reference": "5b80e32ea6d650be8a42577310a3a8bb3f99c7b0",
+                "url": "https://api.github.com/repos/yoeunes/regex-parser/zipball/e4d61b82c3e38facf247b973cd431a66a13556ad",
+                "reference": "e4d61b82c3e38facf247b973cd431a66a13556ad",
                 "shasum": ""
             },
             "require": {
@@ -7612,7 +7612,7 @@
                 {
                     "name": "Younes ENNAJI",
                     "email": "younes.ennaji.pro@gmail.com",
-                    "homepage": "https://www.linkedin.com/in/younes--ennaji/",
+                    "homepage": "https://www.linkedin.com/in/yoeunes/",
                     "role": "Developer"
                 }
             ],
@@ -7642,7 +7642,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-01-04T06:27:57+00:00"
+            "time": "2026-01-08T17:36:34+00:00"
         }
     ],
     "packages-dev": [
