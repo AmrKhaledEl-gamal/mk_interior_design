@@ -51,19 +51,19 @@ class UserController extends Controller
             'phone1' => $user->phone1,
             'phone2' => $user->phone2,
             'description' => $user->description ?: null,
-            'projects' => $user->projects()->where('active', true)->get()->paginate(8)
-                ->transform(function ($project) {
-                    return $this->formatProject($project);
-                }),
+            // 'projects' => $user->projects()->where('active', true)->get()->paginate(8)
+            //     ->transform(function ($project) {
+            //         return $this->formatProject($project);
+            //     }),
             'created_at' => $user->created_at,
         ];
     }
 
-    // private function formatProject(Project $project): array
-    // {
-    //     return [
-    //         'id' => $project->id,
-    //         'slug' => $project->slug,
-    //     ] + $this->formatProject($project);
-    // }
+    private function formatProject(Project $project): array
+    {
+        return [
+            'id' => $project->id,
+            'slug' => $project->slug,
+        ] + $this->formatProject($project);
+    }
 }
