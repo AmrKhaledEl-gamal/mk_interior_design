@@ -74,7 +74,6 @@ class UserController extends Controller
         return [
             'id'    => $project->id,
             'slug'  => $project->slug,
-            'title' => $project->title,
         ];
     }
 }
