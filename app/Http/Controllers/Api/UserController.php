@@ -34,7 +34,7 @@ class UserController extends Controller
 
         $projects = $user->projects()
             ->where('active', true)
-            ->select('id', 'slug', 'title')
+            ->select('id', 'slug')
             ->paginate(8);
 
         $items = $projects->getCollection()
