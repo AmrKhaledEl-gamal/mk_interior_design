@@ -32,15 +32,23 @@ class UserController extends Controller
             ], 404);
         }
 
+        $projects = $user->projects()
+            ->where('active', true)
+            ->select('id', 'slug', 'title')
+            ->paginate(8);
+
         return response()->json([
             'status' => true,
-            'data' => $this->formatUser($user, true)
+            'data' => [
+                'user' => $this->formatUser($user),
+                'projects' => $projects
+            ]
         ]);
     }
 
-    private function formatUser(User $user, bool $withProjects = false): array
+    private function formatUser(User $user): array
     {
-        $data = [
+        return [
             'id'          => $user->id,
             'photo'       => $user->getFirstMediaUrl('avatars'),
             'cover'       => $user->getFirstMediaUrl('covers'),
@@ -52,21 +60,8 @@ class UserController extends Controller
             'description' => $user->description,
             'created_at'  => $user->created_at,
         ];
-
-        if ($withProjects) {
-            $projects = $user->projects()
-                ->where('active', true)
-                ->paginate(8);
-
-            $projects->getCollection()->transform(
-                fn($project) => $this->formatProject($project)
-            );
-
-            $data['projects'] = $projects;
-        }
-
-        return $data;
     }
+
 
     private function formatProject(Project $project): array
     {
