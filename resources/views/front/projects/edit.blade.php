@@ -32,13 +32,6 @@
                     </div>
                 </div>
 
-                {{-- slug --}}
-                <div class="form-group">
-                    <label class="form-label">Slug</label>
-                    <input type="text" name="slug" class="form-control" value="{{ old('slug') ?? $project->slug }}"
-                        placeholder="e.g. skyline-tower" required>
-                </div>
-
                 {{-- Upload New Images --}}
                 <div class="form-group">
                     <label class="form-label" for="images">Project Images</label>

@@ -6,11 +6,11 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ProjectRequest extends FormRequest
 {
-    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
-    {
-        session()->flash('warning', 'يرجى التحقق من الأخطاء: بعض الملفات قد تتجاوز الحجم المسموح به أو غير مدعومة.');
-        parent::failedValidation($validator);
-    }
+    // protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    // {
+    //     session()->flash('warning', 'يرجى التحقق من الأخطاء: بعض الملفات قد تتجاوز الحجم المسموح به أو غير مدعومة.');
+    //     parent::failedValidation($validator);
+    // }
     public function authorize(): bool
     {
         return true;
@@ -25,6 +25,16 @@ class ProjectRequest extends FormRequest
             'photos.*'  => ['image', 'max:5120'],
             'videos'    => ['nullable', 'array'],
             'videos.*'  => ['mimetypes:video/mp4,video/quicktime', 'max:10240'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'photos.*.max' => 'حجم الصورة لا يجب أن يتجاوز 5 ميجا',
+            'photos.*.image' => 'الملف المرفوع يجب أن يكون صورة',
+            'videos.*.max' => 'حجم الفيديو لا يجب أن يتجاوز 10 ميجا',
+            'videos.*.mimetypes' => 'صيغة الفيديو غير مدعومة',
         ];
     }
 }
