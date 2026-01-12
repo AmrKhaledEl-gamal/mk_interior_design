@@ -58,11 +58,11 @@ class UserController extends Controller
         ];
     }
 
-    private function formatProject(Project $project): array
-    {
-        return [
-            'id' => $project->id,
-            'slug' => $project->slug,
-        ] + $this->formatProject($project);
-    }
+    // private function formatProject(Project $project): array
+    // {
+    //     return [
+    //         'id' => $project->id,
+    //         'slug' => $project->slug,
+    //     ] + $this->formatProject($project);
+    // }
 }
