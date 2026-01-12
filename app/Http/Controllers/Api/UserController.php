@@ -50,13 +50,11 @@ class UserController extends Controller
             'email' => $user->email,
             'phone1' => $user->phone1,
             'phone2' => $user->phone2,
-            'description' => $user->description,
-            // 'projects' => $user->projects()->where('active', true)->get()->paginate(8)
-            // ->transform(function ($project) {
-            //     return $this->formatProject($project)
-            // ;
-            // })
-            ,
+            'description' => $user->description ?: null,
+            'projects' => $user->projects()->where('active', true)->get()->paginate(8)
+                ->transform(function ($project) {
+                    return $this->formatProject($project);
+                }),
             'created_at' => $user->created_at,
         ];
     }
