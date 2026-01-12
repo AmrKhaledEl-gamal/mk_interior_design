@@ -51,7 +51,7 @@ class UserController extends Controller
             'phone1' => $user->phone1,
             'phone2' => $user->phone2,
             'description' => $user->description,
-            'projects' => $user->projects()->where('active', true)->get()->paginate(8)
+            // 'projects' => $user->projects()->where('active', true)->get()->paginate(8)
             // ->transform(function ($project) {
             //     return $this->formatProject($project)
             // ;
