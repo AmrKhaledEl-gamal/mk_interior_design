@@ -61,3 +61,16 @@
         </div>
     </main>
 @endsection
+@section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if ($errors->any())
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'خطأ في رفع الملفات',
+                text: '{{ $errors->first() }}',
+                confirmButtonText: 'حاول تاني'
+            });
+        </script>
+    @endif
+@endsection

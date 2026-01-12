@@ -22,14 +22,7 @@ class ProjectController extends Controller
 
     public function store(ProjectRequest $request)
     {
-        $request->validate([
-            'name.en' => 'required|string|max:255',
-            'name.ar' => 'nullable|string|max:255',
-            'photos' => 'required|array',
-            'photos.*' => 'required|image|max:5120',
-            'videos' => 'required|array',
-            'videos.*' => 'required|file|max:10240',
-        ]);
+
         $project = Project::create([
             'name' => [
                 'en' => $request->name['en'],
@@ -58,14 +51,7 @@ class ProjectController extends Controller
 
     public function update(ProjectRequest $request, Project $project)
     {
-        $request->validate([
-            'name.en' => 'required|string|max:255',
-            'name.ar' => 'nullable|string|max:255',
-            'photos' => 'required|array',
-            'photos.*' => 'required|image|max:5120',
-            'videos' => 'required|array',
-            'videos.*' => 'required|file|max:10240',
-        ]);
+
         $project->update([
             'name' => [
                 'en' => $request->name['en'],
