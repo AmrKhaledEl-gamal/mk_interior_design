@@ -17,7 +17,11 @@ Route::middleware(['api.secret', 'api.locale'])->group(function () {
         ->parameters([
             'projects' => 'project:slug',
         ]);
-    Route::apiResource('users', UserController::class)->only(['index', 'show'], ['parameters' => ['users' => 'user:slug']]);
+    Route::apiResource('users', UserController::class)
+        ->only(['index', 'show'])
+        ->parameters([
+            'users' => 'user:slug',
+        ]);
 
     Route::prefix('projects/{slug}')->group(function () {
         // Route::post('views/increment', [ProjectAnalyticsController::class, 'increaseViews']);
