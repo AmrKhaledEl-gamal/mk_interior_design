@@ -13,7 +13,8 @@
     <div class="auth-card">
         <div class="auth-header">
             <div class="auth-icon">
-                <i class="fa-solid fa-n"></i>
+                <img src="{{ $settings->site_logo ? asset('storage/' . $settings->site_logo) : asset('assets/images/logo.png') }}"
+                    style="width: 50px; height: 50px; object-fit: cover; filter: brightness(0);" alt="logo">
             </div>
             <h1 class="auth-title">Welcome Back</h1>
             <p class="auth-subtitle">Sign in to access your dashboard</p>
@@ -57,8 +58,7 @@
                     <input type="checkbox" id="remember" name="remember">
                     <label for="remember" class="checkbox-label">Remember me</label>
                 </div>
-                <a href="#" style="font-size: 0.9rem; color: var(--accent); text-decoration: none;">Forgot
-                    password?</a>
+
             </div>
 
             <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; padding: 1rem;">
@@ -66,9 +66,7 @@
             </button>
         </form>
 
-        <div class="auth-footer">
-            Don't have an account? <a href="#">Contact Support</a>
-        </div>
+
     </div>
 </body>
 
