@@ -22,6 +22,13 @@ return Application::configure(basePath: dirname(__DIR__))
             'api.secret' => \App\Http\Middleware\CheckApiSecret::class,
             'api.locale' => \App\Http\Middleware\SetApiLocale::class,
         ]);
+
+        $middleware->redirectGuestsTo(function (Illuminate\Http\Request $request) {
+            if ($request->is('admin/*')) {
+                return route('admin.login');
+            }
+            return route('login');
+        });
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
