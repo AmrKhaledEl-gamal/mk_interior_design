@@ -57,7 +57,8 @@ class ProjectController extends Controller
 
         return [
             'id'         => $project->id,
-            'user_id'    => $project->user_id,
+            'user_slug'    => $project->user->slug,
+
             'slug'       => $project->slug,
             'name'       => (string) $name,
             'views'      => $project->views,
