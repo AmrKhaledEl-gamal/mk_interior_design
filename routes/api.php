@@ -23,8 +23,7 @@ Route::middleware(['api.secret', 'api.locale'])->group(function () {
             'users' => 'user:slug',
         ]);
 
-    Route::prefix('projects/{slug}')->group(function () {
-        // Route::post('views/increment', [ProjectAnalyticsController::class, 'increaseViews']);
+    Route::prefix('projects/{project}')->group(function () {
         Route::post('like', [ProjectAnalyticsController::class, 'like']);
         Route::post('unlike', [ProjectAnalyticsController::class, 'unlike']);
     });
