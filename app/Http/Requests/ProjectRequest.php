@@ -23,6 +23,8 @@ class ProjectRequest extends FormRequest
             'name.ar'   => ['nullable', 'string', 'max:255'],
             'photos'    => ['nullable', 'array'],
             'photos.*'  => ['image', 'max:5120'],
+            'video_urls' => ['nullable', 'array'],
+            'video_urls.*' => ['nullable', 'url', 'regex:/^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/'],
             'videos'    => ['nullable', 'array'],
             'videos.*'  => ['mimetypes:video/mp4,video/quicktime', 'max:10240'],
         ];
@@ -35,6 +37,8 @@ class ProjectRequest extends FormRequest
             'photos.*.image' => 'الملف المرفوع يجب أن يكون صورة',
             'videos.*.max' => 'حجم الفيديو لا يجب أن يتجاوز 10 ميجا',
             'videos.*.mimetypes' => 'صيغة الفيديو غير مدعومة',
+            'video_urls.*.url' => 'الرابط غير صحيح',
+            'video_urls.*.regex' => 'الرابط غير صحيح',
         ];
     }
 }

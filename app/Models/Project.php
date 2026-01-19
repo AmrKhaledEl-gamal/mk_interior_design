@@ -12,7 +12,7 @@ class Project extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia, HasTranslations;
 
-    protected $fillable = ['name', 'active', 'user_id', 'slug'];
+    protected $fillable = ['name', 'active', 'user_id', 'video_urls', 'slug'];
 
     public $translatable = ['name'];
 
@@ -23,6 +23,7 @@ class Project extends Model implements HasMedia
 
     protected $casts = [
         'active' => 'boolean',
+        'video_urls' => 'array',
     ];
 
     public function registerMediaCollections(): void
@@ -31,8 +32,8 @@ class Project extends Model implements HasMedia
             ->addMediaCollection('photos')
             ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/webp']);
 
-        $this
-            ->addMediaCollection('videos')
-            ->acceptsMimeTypes(['video/mp4', 'video/quicktime', 'video/avi', 'video/mpeg']);
+        // $this
+        //     ->addMediaCollection('videos')
+        //     ->acceptsMimeTypes(['video/mp4', 'video/quicktime', 'video/avi', 'video/mpeg']);
     }
 }

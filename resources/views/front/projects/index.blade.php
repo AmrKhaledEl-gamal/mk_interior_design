@@ -87,7 +87,7 @@
                                 <i class="fa-solid fa-photo-film" style="color: var(--text-secondary);"></i>
                                 <span style="font-size: 0.8rem; color: var(--text-secondary);">
                                     {{ $project->getMedia('photos')->count() }} •
-                                    {{ $project->getMedia('videos')->count() }}
+                                    {{ is_array($project->video_urls) ? count($project->video_urls) : 0 }}
                                 </span>
                             </div>
                         </div>

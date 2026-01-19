@@ -64,15 +64,15 @@ class ProjectController extends Controller
             'views'      => $project->views,
             'likes'      => $project->likes,
             'created_at' => $project->created_at,
-
+            'video_urls' => $project->video_urls,
             'media' => [
                 'photos' => $project->getMedia('photos')
                     ->map(fn($media) => $media->getUrl())
                     ->values(),
 
-                'videos' => $project->getMedia('videos')
-                    ->map(fn($media) => $media->getUrl())
-                    ->values(),
+                // 'videos' => $project->getMedia('videos')
+                //     ->map(fn($media) => $media->getUrl())
+                //     ->values(),
             ],
         ];
     }

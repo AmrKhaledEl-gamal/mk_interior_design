@@ -30,6 +30,7 @@ class ProjectController extends Controller
             ],
             'slug' => Str::slug($request->name['en']),
             'user_id' => auth()->id(),
+            'video_urls' => $request->video_urls ?? [],
         ]);
 
         $this->handleMedia($project, $request);
@@ -58,6 +59,7 @@ class ProjectController extends Controller
                 'ar' => $request->name['ar'],
             ],
             'slug' => Str::slug($request->name['en']),
+            'video_urls' => $request->video_urls ?? [],
         ]);
 
         $this->handleMedia($project, $request);
@@ -119,11 +121,11 @@ class ProjectController extends Controller
         }
 
 
-        if ($request->hasFile('videos')) {
-            foreach ($request->file('videos') as $video) {
-                $project->addMedia($video)->toMediaCollection('videos');
-            }
-        }
+        // if ($request->hasFile('videos')) {
+        //     foreach ($request->file('videos') as $video) {
+        //         $project->addMedia($video)->toMediaCollection('videos');
+        //     }
+        // }
     }
 
     public function deleteMedia($id)

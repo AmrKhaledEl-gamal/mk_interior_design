@@ -91,6 +91,40 @@
                     <!-- Gallery -->
                     <div class="card" style="padding: 1.5rem; border: 1px solid var(--border); border-radius: 12px;">
                         <h3 style="margin-bottom: 1rem;">Media Gallery</h3>
+                        <div class="settings-section animate-fade-in">
+                            <div class="settings-header">
+                                <h3><i class="fa-solid fa-video"
+                                        style="margin-right: 0.5rem; color: var(--accent-color);"></i>
+                                    Project Videos</h3>
+                            </div>
+                            <div
+                                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                                {{-- @dd($project->video_urls) --}}
+                                @if ($project->video_urls)
+                                    @foreach ($project->video_urls as $url)
+                                        @php
+                                            preg_match(
+                                                '/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/',
+                                                $url,
+                                                $matches,
+                                            );
+                                            $videoId = $matches[1] ?? null;
+                                        @endphp
+                                        @if ($videoId)
+                                            <div style="border-radius: 12px; overflow: hidden; background: #000;">
+                                                <iframe width="100%" height="200"
+                                                    src="https://www.youtube.com/embed/{{ $videoId }}"
+                                                    title="YouTube video player" frameborder="0"
+                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                    allowfullscreen></iframe>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                @else
+                                    <p style="color: var(--text-secondary);">No videos available.</p>
+                                @endif
+                            </div>
+                        </div>
 
                         <!-- Photos -->
                         <h4 style="font-size: 1rem; margin-bottom: 1rem;">Photos
@@ -107,26 +141,6 @@
                                 </div>
                             @empty
                                 <p style="color: var(--text-secondary); grid-column: 1/-1;">No photos uploaded.</p>
-                            @endforelse
-                        </div>
-
-                        <!-- Videos -->
-                        <h4 style="font-size: 1rem; margin-bottom: 1rem;">Videos
-                            ({{ $project->getMedia('videos')->count() }})</h4>
-                        <div
-                            style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;">
-                            @forelse($project->getMedia('videos') as $media)
-                                <div onclick="openMedia('video', '{{ $media->getUrl() }}')"
-                                    style="cursor: pointer; border-radius: 8px; overflow: hidden; position: relative; aspect-ratio: 16/9; background: #000;">
-                                    <video src="{{ $media->getUrl() }}"
-                                        style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8;"></video>
-                                    <div
-                                        style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40px; height: 40px; background: rgba(0,0,0,0.6); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid white;">
-                                        <i class="fa-solid fa-play" style="color: white; margin-left: 2px;"></i>
-                                    </div>
-                                </div>
-                            @empty
-                                <p style="color: var(--text-secondary); grid-column: 1/-1;">No videos uploaded.</p>
                             @endforelse
                         </div>
                     </div>

@@ -41,16 +41,25 @@
                     </div>
                 </div>
 
-                <!-- Project Videos -->
+                <!-- Video URLs -->
                 <div class="form-group">
-                    <label class="form-label">Project Videos (Upload Multiple)</label>
-                    <div
-                        style="border: 2px dashed var(--border); padding: 2rem; text-align: center; border-radius: 12px; background: rgba(0,0,0,0.2);">
-                        <i class="fa-solid fa-film"
-                            style="font-size: 2rem; color: var(--text-secondary); margin-bottom: 1rem;"></i>
-                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">Drag and drop your videos here</p>
-                        <input type="file" id="videos" name="videos[]" class="form-control" multiple accept="video/*">
+                    <label class="form-label">Video URLs (YouTube/Vimeo)</label>
+                    <div id="video-url-container" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <div style="display: flex; gap: 0.5rem;">
+                            <input type="url" name="video_urls[]" class="form-control"
+                                placeholder="https://www.youtube.com/watch?v=...">
+                            <button type="button" class="btn-primary"
+                                style="background: rgba(255,255,255,0.1); border-color: transparent;" disabled><i
+                                    class="fa-solid fa-link"></i></button>
+                        </div>
                     </div>
+                    @error('video_urls')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                    <button type="button" class="btn-outline" style="margin-top: 1rem; width: 100%;"
+                        onclick="addVideoInput()">
+                        <i class="fa-solid fa-plus"></i> Add Another Video
+                    </button>
                 </div>
 
                 <!-- Buttons -->
@@ -83,10 +92,10 @@
 
     <script>
         const maxPhotoSize = 5 * 1024 * 1024; // 5MB
-        const maxVideoSize = 10 * 1024 * 1024; // 10MB
+        // const maxVideoSize = 10 * 1024 * 1024; // 10MB
 
         const photoInput = document.getElementById('photos');
-        const videoInput = document.getElementById('videos');
+        // const videoInput = document.getElementById('videos');
         const form = document.getElementById('projectForm');
 
         // Validate photos عند الاختيار
@@ -114,28 +123,28 @@
         });
 
         // Validate videos عند الاختيار
-        videoInput.addEventListener('change', function() {
-            const dt = new DataTransfer();
-            let invalidFiles = [];
+        // videoInput.addEventListener('change', function() {
+        //     const dt = new DataTransfer();
+        //     let invalidFiles = [];
 
-            for (let file of this.files) {
-                if (file.size > maxVideoSize) {
-                    invalidFiles.push(file.name);
-                } else {
-                    dt.items.add(file);
-                }
-            }
+        //     for (let file of this.files) {
+        //         if (file.size > maxVideoSize) {
+        //             invalidFiles.push(file.name);
+        //         } else {
+        //             dt.items.add(file);
+        //         }
+        //     }
 
-            this.files = dt.files; // تحديث الملفات الصالحة فقط
+        //     this.files = dt.files; // تحديث الملفات الصالحة فقط
 
-            if (invalidFiles.length > 0) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'تم تجاهل بعض الملفات',
-                    text: `تم استبعاد الفيديوهات التالية لأن حجمها أكبر من 10 ميجا:\n${invalidFiles.join(', ')}`,
-                });
-            }
-        });
+        //     if (invalidFiles.length > 0) {
+        //         Swal.fire({
+        //             icon: 'warning',
+        //             title: 'تم تجاهل بعض الملفات',
+        //             text: `تم استبعاد الفيديوهات التالية لأن حجمها أكبر من 10 ميجا:\n${invalidFiles.join(', ')}`,
+        //         });
+        //     }
+        // });
 
         // Loading وقت submit
         form.addEventListener('submit', function() {
@@ -146,5 +155,19 @@
                 didOpen: () => Swal.showLoading()
             });
         });
+    </script>
+    <script>
+        function addVideoInput() {
+            const container = document.getElementById('video-url-container');
+            const div = document.createElement('div');
+            div.style.cssText = "display: flex; gap: 0.5rem;";
+            div.innerHTML = `
+                <input type="url" name="video_urls[]" class="form-control" placeholder="https://www.youtube.com/watch?v=...">
+                <button type="button" class="btn-outline" style="border-color: #ef4444; color: #ef4444;" onclick="this.parentElement.remove()">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            `;
+            container.appendChild(div);
+        }
     </script>
 @endsection
